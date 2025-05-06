@@ -34,21 +34,17 @@
                                             {{ number_format($item['price'], 0, ',', '.') }}</p>
                                         <div class="d-flex align-items-center mb-2">
                                             <form action="{{ route('cart.updateQuantity', $item['id']) }}" method="POST"
-                                                class="d-flex align-items-center me-2">
+                                                class="d-flex align-items-center me-2 update-qty-form">
                                                 @csrf
-                                                <button type="button" class="btn btn-sm btn-secondary"
-                                                    onclick="decrementQty(this)">-</button>
+                                                <button type="button" class="btn btn-sm btn-danger fw-bold">-</button>
                                                 <input type="number" name="quantity" value="{{ $item['quantity'] }}"
-                                                    class="form-control mx-2 quantity-input" style="width: 60px"
-                                                    min="1">
-                                                <button type="button" class="btn btn-sm btn-secondary"
-                                                    onclick="incrementQty(this)">+</button>
-                                                <button type="submit" class="btn btn-sm btn-primary ms-2">Update</button>
+                                                    class="form-control mx-2 quantity-input text-center" style="width: 60px" min="1" readonly>
+                                                <button type="button" class="btn btn-sm btn-success fw-bold">+</button>
                                             </form>
                                             <form action="{{ route('cart.remove', $item['id']) }}" method="POST"
                                                 onsubmit="return confirm('Hapus produk ini dari keranjang?')">
                                                 @csrf
-                                                <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+                                                <button type="submit" class="btn btn-sm btn-danger ms-2">Hapus</button>
                                             </form>
                                         </div>
                                         <div>
@@ -87,61 +83,76 @@
 
     @push('scripts')
         <script>
-            function incrementQty(btn) {
-                const input = btn.previousElementSibling;
-                input.value = parseInt(input.value) + 1;
-                updateSubtotal(btn);
-            }
-
-            function decrementQty(btn) {
-                const input = btn.nextElementSibling;
-                if (parseInt(input.value) > 1) {
-                    input.value = parseInt(input.value) - 1;
-                    updateSubtotal(btn);
-                }
-            }
-
-            // Update subtotal display when quantity changes (client-side only)
-            function updateSubtotal(btn) {
-                const form = btn.closest('form');
-                const input = form.querySelector('input[name="quantity"]');
-                const priceText = form.closest('.col-md-8').querySelector('.text-muted').innerText;
-                const price = parseInt(priceText.replace(/\D/g, ''));
-                const subtotal = price * parseInt(input.value);
-                form.closest('.col-md-8').querySelector('.subtotal-display').innerText = 'Rp ' + subtotal.toLocaleString(
-                    'id-ID');
-                // Optionally, update data-price on checkbox for live total update
-                const checkbox = form.closest('.row').querySelector('.cart-checkbox');
-                if (checkbox) {
-                    checkbox.setAttribute('data-price', subtotal);
-                }
-                updateTotalHarga();
-            }
-
-            // Checkbox logic for total price
-            function updateTotalHarga() {
-                let total = 0;
-                document.querySelectorAll('.cart-checkbox').forEach(function(checkbox) {
-                    if (checkbox.checked) {
-                        total += parseInt(checkbox.getAttribute('data-price'));
-                    }
-                });
-                document.getElementById('total-harga-display').innerText = 'Rp ' + total.toLocaleString('id-ID');
-            }
-
-            document.querySelectorAll('.cart-checkbox').forEach(function(checkbox) {
-                checkbox.addEventListener('change', updateTotalHarga);
-            });
-
-            // Update subtotal and total when quantity input changes
-            document.querySelectorAll('.quantity-input').forEach(function(input) {
-                input.addEventListener('input', function() {
-                    updateSubtotal(input);
-                });
-            });
-
-            // Inisialisasi total harga saat halaman dimuat
             document.addEventListener('DOMContentLoaded', function() {
+                // Tombol +
+                document.querySelectorAll('.update-qty-form .btn-success').forEach(function(btn) {
+                    btn.addEventListener('click', function() {
+                        const form = btn.closest('.update-qty-form');
+                        const input = form.querySelector('input[name="quantity"]');
+                        input.value = parseInt(input.value) + 1;
+                        updateSubtotal(input);
+                        submitQtyForm(form);
+                    });
+                });
+
+                // Tombol -
+                document.querySelectorAll('.update-qty-form .btn-danger').forEach(function(btn) {
+                    btn.addEventListener('click', function() {
+                        const form = btn.closest('.update-qty-form');
+                        const input = form.querySelector('input[name="quantity"]');
+                        if (parseInt(input.value) > 1) {
+                            input.value = parseInt(input.value) - 1;
+                            updateSubtotal(input);
+                            submitQtyForm(form);
+                        }
+                    });
+                });
+
+                function submitQtyForm(form) {
+                    const url = form.action;
+                    const token = form.querySelector('input[name="_token"]').value;
+                    const qty = form.querySelector('input[name="quantity"]').value;
+                    fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': token,
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ quantity: qty })
+                    }).then(response => {
+                        // Optionally handle response
+                    });
+                }
+
+                function updateSubtotal(input) {
+                    const form = input.closest('form');
+                    const priceText = form.closest('.col-md-8').querySelector('.text-muted').innerText;
+                    const price = parseInt(priceText.replace(/\D/g, ''));
+                    const subtotal = price * parseInt(input.value);
+                    form.closest('.col-md-8').querySelector('.subtotal-display').innerText = 'Rp ' + subtotal.toLocaleString('id-ID');
+                    const checkbox = form.closest('.row').querySelector('.cart-checkbox');
+                    if (checkbox) {
+                        checkbox.setAttribute('data-price', subtotal);
+                    }
+                    updateTotalHarga();
+                }
+
+                function updateTotalHarga() {
+                    let total = 0;
+                    document.querySelectorAll('.cart-checkbox').forEach(function(checkbox) {
+                        if (checkbox.checked) {
+                            total += parseInt(checkbox.getAttribute('data-price'));
+                        }
+                    });
+                    document.getElementById('total-harga-display').innerText = 'Rp ' + total.toLocaleString('id-ID');
+                }
+
+                document.querySelectorAll('.cart-checkbox').forEach(function(checkbox) {
+                    checkbox.addEventListener('change', updateTotalHarga);
+                });
+
+                // Inisialisasi total harga saat halaman dimuat
                 updateTotalHarga();
             });
         </script>

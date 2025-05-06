@@ -64,6 +64,11 @@
                                                             <div class="btn-group">
                                                                 <a href="{{ route('pembelian.edit', $item->id) }}"
                                                                     class="btn btn-sm btn-warning me-1">Edit</a>
+                                                                <button type="button" class="btn btn-sm btn-info me-1"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#detailPembelianModal-{{ $item->id }}">
+                                                                    Detail Pembelian
+                                                                </button>
                                                                 <form action="{{ route('pembelian.destroy', $item->id) }}"
                                                                     method="POST" class="d-inline">
                                                                     @csrf
@@ -88,4 +93,45 @@
             </div>
         </div>
     </div>
+
+    {{-- Modal Detail Pembelian --}}
+    @foreach ($pembelian as $item)
+        <div class="modal fade" id="detailPembelianModal-{{ $item->id }}" tabindex="-1"
+            aria-labelledby="detailPembelianLabel-{{ $item->id }}" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title" id="detailPembelianLabel-{{ $item->id }}">Detail Pembelian -
+                            {{ $item->no_nota }}</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama Obat</th>
+                                    <th>Jumlah Beli</th>
+                                    <th>Harga Beli</th>
+                                    <th>Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($item->details as $i => $detail)
+                                    <tr>
+                                        <td>{{ $i + 1 }}</td>
+                                        <td>{{ $detail->obat->nama_obat ?? '-' }}</td>
+                                        <td>{{ $detail->jumlah_beli }}</td>
+                                        <td>Rp {{ number_format($detail->harga_beli, 0, ',', '.') }}</td>
+                                        <td>Rp {{ number_format($detail->subtotal, 0, ',', '.') }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
 @endsection
