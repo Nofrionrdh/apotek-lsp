@@ -12,7 +12,8 @@
     <link href="img/favicon.ico" rel="icon">
 
     <!-- Font Awesome CDN -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+        integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 
     <!-- Google Web Fonts -->
@@ -39,6 +40,44 @@
 </head>
 
 <body>
+    <style>
+        .nav-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(145deg, #ffffff, #f3f3f3);
+            /* box-shadow: 3px 3px 6px #d9d9d9, -3px -3px 6px #ffffff; */
+            transition: all 0.3s ease;
+        }
+
+        .nav-icon i {
+            color: #0dcaf0;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-icon:hover {
+            background: linear-gradient(145deg, #0dcaf0, #0bb5d7);
+            transform: translateY(-2px);
+        }
+
+        .nav-icon:hover i {
+            color: white;
+        }
+
+        .badge {
+            font-size: 0.6rem;
+            transform: translate(25%, -25%);
+        }
+    </style>
+
+    <script>
+        // Initialize tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    </script>
+
     <!-- Spinner Start -->
     <div id="spinner"
         class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
@@ -87,14 +126,17 @@
                     <a href="/contact" class="nav-item nav-link">Contact Us</a>
                 </div>
                 <div class="d-none d-lg-flex ms-2">
-                    {{-- <a class="btn-sm-square bg-white rounded-circle ms-3" href="">
-                        <small class="fa fa-search text-body"></small>
-                    </a> --}}
-                    <a class="btn-sm-square bg-white rounded-circle ms-3" href="">
-                        <small class="fa fa-user text-body"></small>
+                    <a class="nav-icon position-relative rounded-circle ms-3 d-flex align-items-center justify-content-center"
+                        href="" data-bs-toggle="tooltip" title="Profile">
+                        <i class="fa fa-user"></i>
                     </a>
-                    <a class="btn-sm-square bg-white rounded-circle ms-3" href="{{ route('fe.keranjang.index') }}">
-                        <small class="fa fa-shopping-bag text-body"></small>
+                    <a class="nav-icon position-relative rounded-circle ms-3 d-flex align-items-center justify-content-center"
+                        href="{{ route('fe.cart.index') }}" data-bs-toggle="tooltip" title="Cart">
+                        <i class="fa fa-shopping-bag"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            0
+                            <span class="visually-hidden">items in cart</span>
+                        </span>
                     </a>
                 </div>
             </div>
@@ -105,6 +147,10 @@
 
     @yield('keranjang')
 
+    {{-- <div>
+        @yield('keranjang')
+    </div> --}}
+
 
     <!-- Carousel Start -->
     @yield('carousel')
@@ -112,7 +158,9 @@
 
 
     <!-- About Start -->
-    @yield('about')
+    <div>
+        @yield('about')
+    </div>
     <!-- About End -->
 
 

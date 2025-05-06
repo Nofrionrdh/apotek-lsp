@@ -14,7 +14,7 @@ use App\Http\Controllers\DistributorController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ManageUserController;
 use App\Http\Controllers\PembelianController;
-use App\Http\Controllers\KeranjangController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\PenjualanController;
 use App\Http\Middleware\CheckUserJabatan;
@@ -61,7 +61,7 @@ Route::resource('/', App\Http\Controllers\HomeController::class);
 Route::resource('/home', App\Http\Controllers\HomeController::class);
 Route::resource('/contact', App\Http\Controllers\ContactController::class);
 Route::resource('/about', App\Http\Controllers\AboutController::class);
-Route::resource('/keranjang', App\Http\Controllers\KeranjangController::class);
+Route::resource('/Cart', App\Http\Controllers\CartController::class);
 
 Route::get('/dashboard', function () {
     $user = Auth::user();
@@ -132,7 +132,7 @@ Route::middleware(['auth', RoleAuth::class . ':kasir'])->group(function () {
 Route::resource('obat', ObatController::class);
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
-Route::get('/keranjang', [KeranjangController::class, 'index'])->name('fe.keranjang.index');
+Route::get('/cart', [CartController::class, 'index'])->name('fe.cart.index');
 
 Route::get('/manage-user', [App\Http\Controllers\ManageUserController::class, 'index'])->name('manage-user.index');
 Route::get('/manage-user/create', [App\Http\Controllers\ManageUserController::class, 'create'])->name('manage-user.create');
@@ -171,3 +171,7 @@ Route::delete('pembelian/{id}', [App\Http\Controllers\PembelianController::class
 
 Route::get('/products', [HomeController::class, 'product'])->name('products');
 Route::get('/product', [App\Http\Controllers\HomeController::class, 'product'])->name('product');
+
+Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+Route::post('/cart/{productId}/update', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
+Route::post('/cart/{productId}/remove', [CartController::class, 'remove'])->name('cart.remove');

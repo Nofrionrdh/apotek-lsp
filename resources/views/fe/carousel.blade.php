@@ -2,14 +2,14 @@
     <div id="header-carousel" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img class="w-100" src="{{ asset ('fe/img/obat.jpg')}}" alt="Image">
-                <div class="carousel-caption">
+                <img class="w-100" src="{{ asset('fe/img/obat.jpg')}}" alt="Image">
+                <div class="carousel-caption" style="top:10%; transform:translateY(-10%);">
                     <div class="container">
                         <div class="row justify-content-start">
                             <div class="col-lg-7">
-                                <h1 class="display-2 mb-5 animated slideInDown">Lengkap, Terjangkau, Siap Melayani</h1>
-                                <a href="#" class="btn btn-info rounded-pill py-sm-3 px-sm-5">Products</a>
-                                <a href="#" class="btn btn-success rounded-pill py-sm-3 px-sm-5 ms-3">Services</a>
+                                <h1 class="display-3 mb-5 animated slideInDown" style="font-size:3rem;">Lengkap, Terjangkau, Siap Melayani</h1>
+                                <a href="#product" class="btn btn-info rounded-pill py-sm-3 px-sm-5">Products</a>
+                                <a href="#feature" class="btn btn-success rounded-pill py-sm-3 px-sm-5 ms-3">Services</a>
                             </div>
                         </div>
                     </div>
@@ -17,13 +17,13 @@
             </div>
             <div class="carousel-item">
                 <img class="w-100" src="{{ asset ('fe/img/dokter.png')}}" alt="Image">
-                <div class="carousel-caption">
+                <div class="carousel-caption" style="top:10%; transform:translateY(-10%);">
                     <div class="container">
                         <div class="row justify-content-start">
                             <div class="col-lg-7">
-                                <h1 class="display-2 mb-5 animated slideInDown">Lengkap, Terjangkau, Siap Melayani</h1>
-                                <a href="" class="btn btn-info rounded-pill py-sm-3 px-sm-5">Products</a>
-                                <a href="" class="btn btn-success rounded-pill py-sm-3 px-sm-5 ms-3">Services</a>
+                                <h1 class="display-3 mb-5 animated slideInDown" style="font-size:3rem;">Lengkap, Terjangkau, Siap Melayani</h1>
+                                <a href="#product" class="btn btn-info rounded-pill py-sm-3 px-sm-5">Products</a>
+                                <a href="#feature" class="btn btn-success rounded-pill py-sm-3 px-sm-5 ms-3">Services</a>
                             </div>
                         </div>
                     </div>

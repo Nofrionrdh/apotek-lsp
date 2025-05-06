@@ -1,8 +1,9 @@
-<div class="container-fluid bg-light my-5 py-6">
+<div id="feature" class="container-fluid bg-light my-5 py-6">
     <div class="container">
         <div class="section-header text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
             <h1 class="display-5 mb-3">Our Features</h1>
-            <p>Kami menyediakan layanan kesehatan terpercaya untuk kebutuhan medis Anda, mulai dari konsultasi hingga pengadaan obat-obatan.</p>
+            <p>Kami menyediakan layanan kesehatan terpercaya untuk kebutuhan medis Anda, mulai dari konsultasi hingga
+                pengadaan obat-obatan.</p>
         </div>
         <div class="row g-4">
             <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">

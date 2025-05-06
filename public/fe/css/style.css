@@ -191,7 +191,7 @@
 .page-header {
     padding-top: 12rem;
     padding-bottom: 6rem;
-    background: url(../img/carousel-1.jpg) top right no-repeat;
+    background: url(../img/obat.jpg) top right no-repeat;
     background-size: cover;
 }
 
@@ -381,4 +381,65 @@
 
 .footer .copyright a:hover {
     color: var(--primary);
+}
+
+/* ===== Custom Cart Styles ===== */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+body, .container, .card, .card-body, h1, h2, h4, h5, p, span, strong, button, input, label, div {
+    font-family: 'Poppins', Arial, sans-serif !important;
+}
+/* Custom Checkbox */
+.custom-checkbox {
+    position: relative;
+    width: 22px;
+    height: 22px;
+    margin: 0;
+    cursor: pointer;
+    display: inline-block;
+}
+.custom-checkbox input[type="checkbox"] {
+    opacity: 0;
+    width: 22px;
+    height: 22px;
+    margin: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
+    cursor: pointer;
+    z-index: 2;
+}
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 22px;
+    width: 22px;
+    background-color: #fff;
+    border: 2px solid #0d6efd;
+    border-radius: 6px;
+    transition: background 0.2s, border 0.2s;
+    z-index: 1;
+}
+.custom-checkbox input:checked ~ .checkmark {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+.custom-checkbox input:checked ~ .checkmark:after {
+    display: block;
+}
+.custom-checkbox .checkmark:after {
+    left: 6px;
+    top: 2px;
+    width: 6px;
+    height: 12px;
+    border: solid #fff;
+    border-width: 0 3px 3px 0;
+    border-radius: 2px;
+    transform: rotate(45deg);
+    content: "";
 }
