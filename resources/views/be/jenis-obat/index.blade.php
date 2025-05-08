@@ -40,13 +40,13 @@
                                                         <td>{{ $jenis->deskripsi_jenis }}</td>
                                                         <td>
                                                             <a href="{{ route('jenis-obat.edit', $jenis->id) }}"
-                                                                class="btn btn-sm btn-warning">Edit</a>
+                                                                class="btn btn-sm btn-warning"><i class="fa-solid fa-pencil"></i></a>
                                                             <form action="{{ route('jenis-obat.destroy', $jenis->id) }}"
                                                                 method="POST" class="d-inline">
                                                                 @csrf
                                                                 @method('DELETE')
                                                                 <button type="submit" class="btn btn-sm btn-danger"
-                                                                    onclick="return confirm('Yakin ingin menghapus?')">Hapus</button>
+                                                                    onclick="return confirm('Yakin ingin menghapus?')"><i class="fa-solid fa-trash"></i></button>
                                                             </form>
                                                         </td>
                                                     </tr>

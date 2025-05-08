@@ -20,6 +20,8 @@ use App\Http\Controllers\PenjualanController;
 use App\Http\Middleware\CheckUserJabatan;
 use App\Http\Middleware\RoleAuth;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\PelangganController;
+use App\Http\Controllers\ProfileController;
 
 
 
@@ -34,7 +36,6 @@ Route::get('/register', [AuthController::class, 'registerForm'])->middleware('gu
 Route::post('/register', [AuthController::class, 'registerProcess'])->middleware('guest')->name('registerProcess');
 
 Route::get('/admin', [AdminController::class, 'index'])->name('Auth.Login')->middleware(Roleauth::class . ':admin');
-
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [App\Http\Controllers\AuthController::class, 'login'])->name('login');
@@ -62,6 +63,7 @@ Route::resource('/home', App\Http\Controllers\HomeController::class);
 Route::resource('/contact', App\Http\Controllers\ContactController::class);
 Route::resource('/about', App\Http\Controllers\AboutController::class);
 Route::resource('/Cart', App\Http\Controllers\CartController::class);
+Route::resource('/Profile', App\Http\Controllers\ProfileController::class);
 
 Route::get('/dashboard', function () {
     $user = Auth::user();
@@ -132,7 +134,7 @@ Route::middleware(['auth', RoleAuth::class . ':kasir'])->group(function () {
 Route::resource('obat', ObatController::class);
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
-Route::get('/cart', [CartController::class, 'index'])->name('fe.cart.index');
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 
 Route::get('/manage-user', [App\Http\Controllers\ManageUserController::class, 'index'])->name('manage-user.index');
 Route::get('/manage-user/create', [App\Http\Controllers\ManageUserController::class, 'create'])->name('manage-user.create');
@@ -175,3 +177,29 @@ Route::get('/product', [App\Http\Controllers\HomeController::class, 'product'])-
 Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
 Route::post('/cart/{productId}/update', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
 Route::post('/cart/{productId}/remove', [CartController::class, 'remove'])->name('cart.remove');
+Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::get('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+Route::post('/cart/checkout', [CartController::class, 'processCheckout'])->name('cart.processCheckout');
+Route::get('/cart/checkout/success', [CartController::class, 'checkoutSuccess'])->name('cart.checkout.success');
+Route::get('/cart/checkout/failure', [CartController::class, 'checkoutFailure'])->name('cart.checkout.failure');
+Route::get('/cart/checkout/success', [CartController::class, 'checkoutSuccess'])->name('cart.checkout.success');
+Route::get('/cart/checkout/failure', [CartController::class, 'checkoutFailure'])->name('cart.checkout.failure');
+
+Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+Route::get('/profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.change-password');
+Route::post('/profile/update-password', [ProfileController::class, 'updatePassword'])->name('profile.update-password');
+Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+
+// Frontend Pelanggan Auth (FE)
+Route::get('/pelanggan/login', [App\Http\Controllers\PelangganController::class, 'showLoginForm'])->name('pelanggan.login');
+Route::post('/pelanggan/login', [App\Http\Controllers\PelangganController::class, 'login'])->name('pelanggan.login.submit');
+Route::get('/pelanggan/register', [App\Http\Controllers\PelangganController::class, 'showRegisterForm'])->name('pelanggan.register');
+Route::post('/pelanggan/register', [App\Http\Controllers\PelangganController::class, 'register'])->name('pelanggan.register.submit');
+Route::post('/pelanggan/logout', [App\Http\Controllers\PelangganController::class, 'logout'])->name('pelanggan.logout');
+
+

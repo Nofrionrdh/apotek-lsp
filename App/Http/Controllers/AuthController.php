@@ -94,6 +94,12 @@ class AuthController extends Controller
                     return redirect()->intended('/admin');
                 case 'apoteker':
                     return redirect()->intended('/apoteker');
+                case 'karyawan':
+                    return redirect()->intended('/karyawan');
+                case 'kasir':
+                    return redirect()->intended('/kasir');
+                case 'pemilik':
+                    return redirect()->intended('/pemilik');
                 default:
                     return redirect('/home');
             }
@@ -111,7 +117,7 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->back();
+        return redirect('/login')->with('success', 'Logout berhasil!');
     }
 
     /**

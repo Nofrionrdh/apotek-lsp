@@ -14,7 +14,7 @@ class PenjualanController extends Controller
     public function index()
     {
         $penjualan = Penjualan::with(['user', 'items.product'])->latest()->get();
-        return view('penjualan.index', compact('penjualan'));
+        return view('be.penjualan.index', compact('penjualan'));
     }
 
     /**

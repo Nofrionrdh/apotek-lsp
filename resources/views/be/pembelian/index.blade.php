@@ -57,25 +57,25 @@
                                                         <td>Rp {{ number_format($item->total_bayar, 0, ',', '.') }}</td>
                                                         <td>
                                                             @foreach ($item->details as $detail)
-                                                                {{ $detail->obat->nama_obat }}<br>
+                                                                {{ $detail->obat->nama_obat ?? '-' }}<br>
                                                             @endforeach
                                                         </td>
                                                         <td class="text-center">
                                                             <div class="btn-group">
-                                                                <a href="{{ route('pembelian.edit', $item->id) }}"
-                                                                    class="btn btn-sm btn-warning me-1">Edit</a>
                                                                 <button type="button" class="btn btn-sm btn-info me-1"
                                                                     data-bs-toggle="modal"
                                                                     data-bs-target="#detailPembelianModal-{{ $item->id }}">
-                                                                    Detail Pembelian
+                                                                    <i class="fa-solid fa-circle-info"></i>
                                                                 </button>
+                                                                <a href="{{ route('pembelian.edit', $item->id) }}"
+                                                                    class="btn btn-sm btn-warning me-1"><i class="fa-solid fa-pencil"></i></a>
                                                                 <form action="{{ route('pembelian.destroy', $item->id) }}"
                                                                     method="POST" class="d-inline">
                                                                     @csrf
                                                                     @method('DELETE')
                                                                     <button type="submit" class="btn btn-sm btn-danger"
                                                                         onclick="return confirm('Yakin ingin menghapus?')">
-                                                                        Hapus
+                                                                        <i class="fa-solid fa-trash"></i>
                                                                     </button>
                                                                 </form>
                                                             </div>
@@ -101,8 +101,7 @@
             <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header bg-primary text-white">
-                        <h5 class="modal-title" id="detailPembelianLabel-{{ $item->id }}">Detail Pembelian -
-                            {{ $item->no_nota }}</h5>
+                        <h5 class="modal-title" id="detailPembelianLabel-{{ $item->id }}">Detail Pembelian - {{ $item->no_nota }}</h5>
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                     </div>
@@ -110,7 +109,8 @@
                         <table class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>No</th>
+                                    {{-- <th>No</th> --}}
+                                    <th>Id</th>
                                     <th>Nama Obat</th>
                                     <th>Jumlah Beli</th>
                                     <th>Harga Beli</th>
@@ -120,7 +120,8 @@
                             <tbody>
                                 @foreach ($item->details as $i => $detail)
                                     <tr>
-                                        <td>{{ $i + 1 }}</td>
+                                        {{-- <td>{{ $i + 1 }}</td> --}}
+                                        <td>{{ $detail->id }}</td>
                                         <td>{{ $detail->obat->nama_obat ?? '-' }}</td>
                                         <td>{{ $detail->jumlah_beli }}</td>
                                         <td>Rp {{ number_format($detail->harga_beli, 0, ',', '.') }}</td>

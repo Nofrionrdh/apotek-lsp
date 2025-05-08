@@ -13,7 +13,7 @@ class JenisObatController extends Controller
     public function index()
     {
         $jenis_obat = JenisObat::all();
-        return view('jenis-obat.index', [
+        return view('be.jenis-obat.index', [
             'title' => 'jenis-obat',
             'jenis_obat' => $jenis_obat
         ]);
@@ -25,7 +25,7 @@ class JenisObatController extends Controller
     public function create()
     {
         $jenis_obat = JenisObat::all(); // ambil semua data jenis obat
-        return view('jenis-obat.create', [
+        return view('be.jenis-obat.create', [
             'title' => 'Tambah Jenis Obat',
             'jenis_obat' => $jenis_obat
         ]);
@@ -52,7 +52,7 @@ class JenisObatController extends Controller
             'image_url' => 'uploads/jenis-obat/' . $nama_gambar
         ]);
 
-        return redirect()->route('jenis-obat.index')
+        return redirect()->route('be.jenis-obat.index')
             ->with('success', 'Jenis obat berhasil ditambahkan');
     }
 
@@ -70,7 +70,7 @@ class JenisObatController extends Controller
     public function edit($id)
     {
         $jenis_obat = JenisObat::findOrFail($id);
-        return view('jenis-obat.edit', [
+        return view('be.jenis-obat.edit', [
             'title' => 'Edit Jenis Obat',
             'jenis_obat' => $jenis_obat
         ]);
@@ -88,7 +88,7 @@ class JenisObatController extends Controller
         $jenis_obat = JenisObat::findOrFail($id);
         $jenis_obat->update($request->all());
 
-        return redirect()->route('jenis-obat.index')
+        return redirect()->route('be.jenis-obat.index')
             ->with('success', 'Jenis obat berhasil diupdate');
     }
 
@@ -99,7 +99,7 @@ class JenisObatController extends Controller
     {
         $jenis_obat = JenisObat::findOrFail($id);
         $jenis_obat->delete();
-        return redirect()->route('jenis-obat.index')
+        return redirect()->route('be.jenis-obat.index')
             ->with('success', 'Jenis obat berhasil dihapus');
     }
 }

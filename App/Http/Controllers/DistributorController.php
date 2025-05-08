@@ -13,7 +13,7 @@ class DistributorController extends Controller
     public function index()
     {
         $dist = Distributor::all();
-        return view('distributor.index', [
+        return view('be.distributor.index', [
             'title' => 'distributor',
             'distributor' => $dist
         ]);
@@ -24,7 +24,7 @@ class DistributorController extends Controller
      */
     public function create()
     {
-        return view('distributor.create', [
+        return view('be.distributor.create', [
             'title' => 'Tambah distributor'
         ]);
     }
@@ -55,7 +55,7 @@ class DistributorController extends Controller
     public function show(string $id)
     {
         $distributor = Distributor::findOrFail($id);
-        return view('distributor.show', [
+        return view('be.distributor.show', [
             'title' => 'Detail distributor',
             'distributor' => $distributor
         ]);
@@ -67,7 +67,7 @@ class DistributorController extends Controller
     public function edit(string $id)
     {
         $distributor = Distributor::findOrFail($id);
-        return view('distributor.edit', [
+        return view('be.distributor.edit', [
             'title' => 'Edit distributor',
             'distributor' => $distributor
         ]);

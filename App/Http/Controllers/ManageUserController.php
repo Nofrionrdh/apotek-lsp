@@ -13,7 +13,7 @@ class ManageUserController extends Controller
     public function index()
     {
         $users = User::all();
-        return view('manage-user.index', [
+        return view('be.manage-user.index', [
             'title' => 'Manage Users',
             'users' => $users
         ]);
@@ -24,7 +24,7 @@ class ManageUserController extends Controller
      */
     public function create()
     {
-        return view('manage-user.create', [
+        return view('be.manage-user.create', [
             'title' => 'Tambah User'
         ]);
     }
@@ -63,7 +63,7 @@ class ManageUserController extends Controller
     public function show(string $id)
     {
         $user = User::findOrFail($id);
-        return view('manage-user.show', [
+        return view('be.manage-user.show', [
             'title' => 'User Details',
             'user' => $user
         ]);
@@ -75,7 +75,7 @@ class ManageUserController extends Controller
     public function edit(string $id)
     {
         $user = User::findOrFail($id);
-        return view('manage-user.edit', [
+        return view('be.manage-user.edit', [
             'title' => 'Edit User',
             'user' => $user
         ]);

@@ -12,7 +12,7 @@ class ObatController extends Controller
     public function index()
     {
         $obat = Obat::with('jenis_obat')->get();
-        return view('obat.index', [
+        return view('be.obat.index', [
             'title' => 'Obat',
             'obats' => $obat
         ]);
@@ -24,7 +24,7 @@ class ObatController extends Controller
     public function create()
     {
         $jenis_obat = JenisObat::all();
-        return view('obat.create', [
+        return view('be.obat.create', [
             'title' => 'Tambah Obat',
             'jenis_obat' => $jenis_obat
         ]);
@@ -66,7 +66,7 @@ class ObatController extends Controller
     public function show(string $id)
     {
         $obat = Obat::find($id);
-        return view('obat.show', compact('obat'));
+        return view('be.obat.show', compact('obat'));
     }
 
     /**
@@ -76,7 +76,7 @@ class ObatController extends Controller
     {
         $obat = Obat::find($id);
         $jenis_obat = JenisObat::all();
-        return view('obat.edit', [
+        return view('be.obat.edit', [
             'title' => 'Edit Obat',
             'obat' => $obat,
             'jenis_obat' => $jenis_obat

@@ -58,9 +58,11 @@
                                                     <input type="password" class="form-control" 
                                                         name="password_confirmation" required>
                                                 </div>
+                                            </div>
+                                            <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label class="form-label">Jabatan</label>
-                                                    <select class="form-select @error('jabatan') is-invalid @enderror" 
+                                                    <select class="form-control @error('jabatan') is-invalid @enderror" 
                                                         name="jabatan" required>
                                                         <option value="">Pilih Jabatan</option>
                                                         <option value="admin" {{ old('jabatan') == 'admin' ? 'selected' : '' }}>Admin</option>

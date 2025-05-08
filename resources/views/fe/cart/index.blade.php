@@ -76,7 +76,7 @@
         @else
             <div class="text-center py-5">
                 <h4>Keranjang Belanja Kosong</h4>
-                <a href="{{ url('/') }}" class="btn btn-primary mt-3">Mulai Belanja</a>
+                <a href="{{ url('/') }}" class="btn btn-success mt-3" style="font-family: 'Poppins', sans-serif; border-radius: 20px; padding: 12px; font-size: 16px; ">Mulai Belanja</a>
             </div>
         @endif
     </div>

@@ -16,7 +16,7 @@ class PembelianController extends Controller
     public function index()
     {
         $pembelian = Pembelian::with(['distributor', 'details.obat'])->get();
-        return view('pembelian.index', [
+        return view('be.pembelian.index', [
             'title' => 'Pembelian',
             'pembelian' => $pembelian
         ]);
@@ -29,7 +29,7 @@ class PembelianController extends Controller
     {
         $distributors = Distributor::all();
         $obat = Obat::with('jenis_obat')->get();
-        return view('pembelian.create', [
+        return view('be.pembelian.create', [
             'title' => 'Tambah Pembelian',
             'distributors' => $distributors,
             'obat' => $obat
@@ -89,7 +89,7 @@ class PembelianController extends Controller
     public function show(string $id)
     {
         $pembelian = Pembelian::with(['distributor', 'obat'])->findOrFail($id);
-        return view('pembelian.show', [
+        return view('be.pembelian.show', [
             'title' => 'Detail Pembelian',
             'pembelian' => $pembelian
         ]);
@@ -103,7 +103,7 @@ class PembelianController extends Controller
         $pembelian = Pembelian::with(['distributor', 'obat'])->findOrFail($id);
         $distributors = Distributor::all();
         $obat = Obat::with('jenis_obat')->get();
-        return view('pembelian.edit', [
+        return view('be.pembelian.edit', [
             'title' => 'Edit Pembelian',
             'pembelian' => $pembelian,
             'distributors' => $distributors,

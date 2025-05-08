@@ -41,14 +41,14 @@
                                                         <td>
                                                             <div class="btn-group">
                                                                 <a href="{{ route('manage-user.edit', $user->id) }}"
-                                                                    class="btn btn-sm btn-warning me-1">Edit</a>
+                                                                    class="btn btn-sm btn-warning me-1"><i class="fa-solid fa-pencil"></i></a>
                                                                 <form action="{{ route('manage-user.destroy', $user->id) }}"
                                                                     method="POST" class="d-inline">
                                                                     @csrf
                                                                     @method('DELETE')
                                                                     <button type="submit" class="btn btn-sm btn-danger"
                                                                         onclick="return confirm('Yakin ingin menghapus user ini?')">
-                                                                        Hapus
+                                                                        <i class="fa-solid fa-trash"></i>
                                                                     </button>
                                                                 </form>
                                                             </div>

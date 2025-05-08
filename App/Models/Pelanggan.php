@@ -14,7 +14,7 @@ class Pelanggan extends Model
     protected $fillable = [
         'nama_pelanggan',
         'email',
-        'kata_kunci',
+        'katakunci',
         'no_telp',
         'alamat1',
         'propinsi1',
@@ -25,6 +25,6 @@ class Pelanggan extends Model
         'kodepos2',
         'kota2',
         'foto',
-        'id_ktp',
+        'url_ktp',
     ];
 }

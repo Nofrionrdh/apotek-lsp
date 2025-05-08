@@ -3,15 +3,42 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Pelanggan;
 
-class ProductController extends Controller
+class ProfileController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        // Data dummy agar blade tidak error
+        $pelanggan = (object)[
+            'id' => '',
+            'foto' => null,
+            'nama_pelanggan' => '',
+            'email' => '',
+            'no_telp' => '',
+            'katakunci' => '',
+            'alamat1' => '',
+            'kota1' => '',
+            'propinsi1' => '',
+            'kodepos1' => '',
+            'alamat2' => '',
+            'kota2' => '',
+            'propinsi2' => '',
+            'kodepos2' => '',
+            'alamat3' => '',
+            'kota3' => '',
+            'propinsi3' => '',
+            'kodepos3' => '',
+            'url_ktp' => '',
+        ];
+
+        return view('fe.profile.index', [
+            'title' => 'Profile',
+            'pelanggan' => $pelanggan,
+        ]);
     }
 
     /**

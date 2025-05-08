@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
         integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,7 +27,7 @@
 
 
     <!-- Icon Font Stylesheet -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    {{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet"> --}}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
@@ -37,9 +39,12 @@
 
     <!-- Template Stylesheet -->
     <link href="{{ asset('fe/css/style.css') }}" rel="stylesheet">
+    
 </head>
 
+
 <body>
+    @php use Illuminate\Support\Facades\Auth; @endphp
     <style>
         .nav-icon {
             width: 40px;
@@ -67,6 +72,56 @@
         .badge {
             font-size: 0.6rem;
             transform: translate(25%, -25%);
+        }
+
+        .profile-img {
+            width: 32px;
+            height: 32px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid #0dcaf0;
+        }
+        .dropdown-menu-profile {
+            min-width: 200px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+            background: linear-gradient(135deg, #f8fafc 80%, #e0f7fa 100%);
+            border: none;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+        .dropdown-menu-profile .profile-header {
+            padding: 1rem 1rem 0.5rem 1rem;
+            border-bottom: 1px solid #e3e3e3;
+            background: transparent;
+        }
+        .dropdown-menu-profile .profile-img {
+            width: 56px;
+            height: 56px;
+            margin-bottom: 0.5rem;
+            border: 3px solid #0dcaf0;
+            box-shadow: 0 2px 8px rgba(13,202,240,0.08);
+        }
+        .dropdown-menu-profile .profile-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #222;
+        }
+        .dropdown-menu-profile .profile-email {
+            font-size: 0.95rem;
+            color: #6c757d;
+        }
+        .dropdown-menu-profile .dropdown-item {
+            border-radius: 8px;
+            margin: 0 0.5rem;
+            transition: background 0.2s, color 0.2s;
+        }
+        .dropdown-menu-profile .dropdown-item:hover {
+            background: #0dcaf0;
+            color: #fff;
+        }
+        .dropdown-menu-profile .dropdown-divider {
+            margin: 0.5rem 0;
         }
     </style>
 
@@ -129,23 +184,45 @@
                 </div>
                 <div class="d-none d-lg-flex ms-2">
                     <a class="nav-icon position-relative rounded-circle ms-3 d-flex align-items-center justify-content-center"
-                        href="" data-bs-toggle="tooltip" title="Profile">
-                        <i class="fa fa-user"></i>
-                    </a>
-                    <a class="nav-icon position-relative rounded-circle ms-3 d-flex align-items-center justify-content-center"
-                        href="{{ route('fe.cart.index') }}" data-bs-toggle="tooltip" title="Cart">
+                        href="{{ route('cart.index') }}" data-bs-toggle="tooltip" title="Cart">
                         <i class="fa fa-shopping-bag"></i>
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                             0
                             <span class="visually-hidden">items in cart</span>
                         </span>
                     </a>
+                    <div class="nav-icon position-relative rounded-circle ms-3 d-flex align-items-center justify-content-center dropdown"
+                        style="cursor:pointer;" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="{{ asset('fe/img/default-profile.png') }}" alt="Profile" class="profile-img">
+                    </div>
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-profile" aria-labelledby="profileDropdown">
+                        @if(session('pelanggan'))
+                            <li class="profile-header text-center">
+                                <img src="{{ asset('fe/img/default-profile.png') }}" alt="Profile" class="profile-img mb-2">
+                                <div class="profile-name">{{ session('pelanggan')->nama_pelanggan }}</div>
+                                <div class="profile-email">{{ session('pelanggan')->email }}</div>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{{ route('profile.index')}}"><i class="fa fa-user me-2"></i>Profile</a></li>
+                            <li>
+                                <form action="{{ route('pelanggan.logout') }}" method="POST" class="m-0">
+                                    @csrf
+                                    <button class="dropdown-item" type="submit"><i class="fa fa-sign-out-alt me-2"></i>Logout</button>
+                                </form>
+                            </li>
+                        @else
+                            <li><a class="dropdown-item" href="{{ route('pelanggan.register') }}"><i class="fa fa-user-plus me-2"></i>Buat Akun</a></li>
+                            <li><a class="dropdown-item" href="{{ route('pelanggan.login') }}"><i class="fa fa-sign-in-alt me-2"></i>Login</a></li>
+                        @endif
+                    </ul>
                 </div>
             </div>
         </nav>
     </div>
     <!-- Navbar End -->
     @yield('contact')
+
+    @yield('profile')
 
     @yield('keranjang')
 
@@ -170,6 +247,9 @@
     @yield('feature')
     <!-- Feature End -->
 
+    <div>
+        @yield('akun')
+    </div>
 
     <!-- Product Start -->
     @yield('product')

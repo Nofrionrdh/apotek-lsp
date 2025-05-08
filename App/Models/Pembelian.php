@@ -27,7 +27,7 @@ class Pembelian extends Model
 
     public function details()
     {
-        return $this->hasMany(DetailPembelian::class, 'id_pembelian');
+        return $this->hasMany(\App\Models\DetailPembelian::class, 'id_pembelian');
     }
 
     public function obat()

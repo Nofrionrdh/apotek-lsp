@@ -49,7 +49,7 @@ class CartController extends Controller
             ];
         }
         session(['cart' => $cart]);
-        return redirect()->route('fe.cart.index')->with('success', 'Produk ditambahkan ke keranjang!');
+        return redirect()->route('cart.index')->with('success', 'Produk ditambahkan ke keranjang!');
     }
 
     public function updateQuantity(Request $request, $productId)
@@ -60,7 +60,7 @@ class CartController extends Controller
             $cart[$productId]['quantity'] = $quantity;
             session(['cart' => $cart]);
         }
-        return redirect()->route('fe.cart.index')->with('success', 'Jumlah produk diperbarui!');
+        return redirect()->route('cart.index')->with('success', 'Jumlah produk diperbarui!');
     }
 
     public function remove($productId)
@@ -70,7 +70,7 @@ class CartController extends Controller
             unset($cart[$productId]);
             session(['cart' => $cart]);
         }
-        return redirect()->route('fe.cart.index')->with('success', 'Produk dihapus dari keranjang!');
+        return redirect()->route('cart.index')->with('success', 'Produk dihapus dari keranjang!');
     }
 
     /**
