@@ -91,6 +91,10 @@
                                                         </td>
                                                     </tr>
                                                 @endforeach
+                                                    {{-- <tr>
+                                                        <td colspan="8" class="text-center text-muted">Data obat tidak ditemukan.</td>
+                                                    </tr>
+                                                @endforelse --}}
                                             </tbody>
                                         </table>
                                     </div>
