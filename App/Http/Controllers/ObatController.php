@@ -88,7 +88,24 @@ class ObatController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'nama_obat' => 'required',
+            'jenis_obat_id' => 'required',
+            'harga' => 'required|numeric',
+            'stok' => 'required|numeric',
+            // tambahkan validasi lain jika perlu
+        ]);
+
+        $obat = Obat::findOrFail($id);
+        $obat->nama_obat = $request->nama_obat;
+        $obat->id_jenis = $request->jenis_obat_id;
+        $obat->harga_jual = $request->harga;
+        $obat->stok = $request->stok;
+        // tambahkan update field lain jika ada
+
+        $obat->save();
+
+        return redirect()->route('obat.index')->with('success', 'Obat berhasil diupdate');
     }
 
     /**

@@ -3,10 +3,16 @@
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-lg-8">
+            @if(session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+            
             <div class="card shadow-sm border-0">
                 <div class="card-body p-4">
                     <h3 class="mb-4 text-info">Profil Saya</h3>
-                    <form action="{{ route('profile.update', $pelanggan->id ?? '') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('profile.update', $pelanggan->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="row mb-4 align-items-center">
@@ -42,7 +48,7 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Alamat</label>
-                                <input type="text" name="alamat1" class="form-control" value="{{ old('alamat1', $pelanggan->alamat1) }}">
+                                <input type="text" name="alamat1" class="form-control" value="{{ old('alamat1', $pelanggan->alamati) }}">
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Kota</label>
@@ -50,7 +56,7 @@
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Provinsi</label>
-                                <input type="text" name="propinsi1" class="form-control" value="{{ old('propinsi1', $pelanggan->propinsi1) }}">
+                                <input type="text" name="propinsi1" class="form-control" value="{{ old('propinsi1', $pelanggan->propinsti) }}">
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Kode Pos</label>
@@ -62,7 +68,7 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Alamat 2</label>
-                                <input type="text" name="alamat2" class="form-control" value="{{ old('alamat2', $pelanggan->alamat2) }}">
+                                <input type="text" name="alamat2" class="form-control" value="{{ old('alamat2', $pelanggan->alamai2) }}">
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Kota 2</label>
@@ -78,7 +84,7 @@
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Alamat 3</label>
-                                <input type="text" name="alamat3" class="form-control" value="{{ old('alamat3', $pelanggan->alamat3) }}">
+                                <input type="text" name="alamat3" class="form-control" value="{{ old('alamat3', $pelanggan->alamai3) }}">
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Kota 3</label>
@@ -108,6 +114,3 @@
     </div>
 </div>
 @endsection
-{{-- @section('footer')
-    @include('fe.footer')
-@endsection --}}

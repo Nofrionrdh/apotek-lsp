@@ -40,6 +40,11 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        'pelanggan' => [
+            'driver' => 'session',
+            'provider' => 'pelanggans',
+        ],
     ],
 
     /*
@@ -63,6 +68,11 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\User::class),
+        ],
+
+        'pelanggans' => [ // Nama provider harus sesuai dengan yang digunakan di guard
+            'driver' => 'eloquent',
+            'model' => env('AUTH_MODEL',App\Models\Pelanggan::class), // Pastikan model Pelanggan ada
         ],
 
         // 'users' => [
@@ -94,6 +104,13 @@ return [
         'users' => [
             'provider' => 'users',
             'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+
+        'pelanggans' => [
+            'provider' => 'pelanggans',
+            'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,
         ],

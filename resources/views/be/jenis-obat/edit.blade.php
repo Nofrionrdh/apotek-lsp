@@ -14,7 +14,7 @@
                                     <h4 class="card-title mb-0">Edit Jenis Obat</h4>
                                 </div>
                                 <div class="card-body">
-                                    <form action="{{ route('jenis-obat.update', $jenisObat->id) }}" method="POST">
+                                    <form action="{{ route('jenis-obat.update', $jenis_obat->id) }}" method="POST">
                                         @csrf
                                         @method('PUT')
                                         <div class="row">
@@ -24,7 +24,7 @@
                                                     <input type="text"
                                                         class="form-control @error('nama_jenis') is-invalid @enderror"
                                                         name="nama_jenis"
-                                                        value="{{ old('nama_jenis', $jenisObat->nama_jenis) }}" required>
+                                                        value="{{ old('nama_jenis', $jenis_obat->nama_jenis) }}" required>
                                                     @error('nama_jenis')
                                                         <div class="invalid-feedback">{{ $message }}</div>
                                                     @enderror

@@ -34,10 +34,8 @@
                                                     <select name="jenis_obat_id"
                                                         class="form-control @error('jenis_obat_id') is-invalid @enderror"
                                                         required>
-                                                        @foreach ($jenis_obat as $jenis)
-                                                            @foreach ($jenis_obat as $j)
-                                                            <option value="{{ $j->id }}">{{ $j->jenis }}</option>
-                                                        @endforeach
+                                                        @foreach ($jenis_obat as $j)
+                                                            <option value="{{ $j->id }}" {{ $obat->id_jenis == $j->id ? 'selected' : '' }}>{{ $j->jenis }}</option>
                                                         @endforeach
                                                     </select>
                                                     @error('jenis_obat_id')

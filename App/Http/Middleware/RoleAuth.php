@@ -17,16 +17,16 @@ class RoleAuth
      * @param  string  $role
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function handle(Request $request, Closure $next, ...$level)
+    public function handle(Request $request, Closure $next, ...$jabatan)
     {
         // Check if the user is authenticated
         if (Auth::check()) {
-            $userLevel = Auth::user()->level;
+            $userjabatan = Auth::user()->jabatan;
 
-            // Check if the user's level matches the allowed levels
-            if (!in_array($userLevel, $level)) {
+            // Check if the user's jabatan matches the allowed jabatans
+            if (!in_array($userjabatan, $jabatan)) {
                 // Redirect to the appropriate dashboard based on their role
-                switch ($userLevel) {
+                switch ($userjabatan) {
                     case 'admin':
                         return redirect('/admin');
                     case 'karyawan':

@@ -183,23 +183,22 @@ Route::get('/cart/checkout', [CartController::class, 'checkout'])->name('cart.ch
 Route::post('/cart/checkout', [CartController::class, 'processCheckout'])->name('cart.processCheckout');
 Route::get('/cart/checkout/success', [CartController::class, 'checkoutSuccess'])->name('cart.checkout.success');
 Route::get('/cart/checkout/failure', [CartController::class, 'checkoutFailure'])->name('cart.checkout.failure');
-Route::get('/cart/checkout/success', [CartController::class, 'checkoutSuccess'])->name('cart.checkout.success');
-Route::get('/cart/checkout/failure', [CartController::class, 'checkoutFailure'])->name('cart.checkout.failure');
-
-Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
-Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
-Route::get('/profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.change-password');
-Route::post('/profile/update-password', [ProfileController::class, 'updatePassword'])->name('profile.update-password');
-Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
-Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+// Route::get('/cart/checkout/success', [CartController::class, 'checkoutSuccess'])->name('cart.checkout.success');
+// Route::get('/cart/checkout/failure', [CartController::class, 'checkoutFailure'])->name('cart.checkout.failure');
 
 // Frontend Pelanggan Auth (FE)
-Route::get('/pelanggan/login', [App\Http\Controllers\PelangganController::class, 'showLoginForm'])->name('pelanggan.login');
-Route::post('/pelanggan/login', [App\Http\Controllers\PelangganController::class, 'login'])->name('pelanggan.login.submit');
-Route::get('/pelanggan/register', [App\Http\Controllers\PelangganController::class, 'showRegisterForm'])->name('pelanggan.register');
-Route::post('/pelanggan/register', [App\Http\Controllers\PelangganController::class, 'register'])->name('pelanggan.register.submit');
-Route::post('/pelanggan/logout', [App\Http\Controllers\PelangganController::class, 'logout'])->name('pelanggan.logout');
 
+Route::prefix('pelanggan')->group(function () {
+    Route::middleware('guest:pelanggan')->group(function () {
+        Route::get('/pelanggan-login', [PelangganController::class, 'showLoginForm'])->name('pelanggan.login');
+        Route::post('/login', [PelangganController::class, 'login'])->name('pelanggan.login.submit');
+        Route::get('/pelanggan-register', [PelangganController::class, 'showRegisterForm'])->name('pelanggan.register');
+        Route::post('/register', [PelangganController::class, 'register'])->name('pelanggan.register.submit');
+    });
 
+    Route::middleware('auth:pelanggan')->group(function () {
+        Route::post('/logout', [PelangganController::class, 'logout'])->name('pelanggan.logout');
+        Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+        Route::put('/profile/{id}', [ProfileController::class, 'update'])->name('profile.update');
+    });
+});
