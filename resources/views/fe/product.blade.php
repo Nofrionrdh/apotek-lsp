@@ -160,13 +160,19 @@
                                                 </a>
                                             </small>
                                             <small class="w-50 text-center border-end py-2">
-                                                <form action="{{ route('cart.add') }}" method="POST" style="display:inline;">
-                                                    @csrf
-                                                    <input type="hidden" name="product_id" value="{{ $item->id }}">
-                                                    <button type="submit" class="text-body detail-btn" style="background:none;border:none;padding:0;">
+                                                @if(session('pelanggan'))
+                                                    <form action="{{ route('cart.add') }}" method="POST" style="display:inline;">
+                                                        @csrf
+                                                        <input type="hidden" name="product_id" value="{{ $item->id }}">
+                                                        <button type="submit" class="text-body detail-btn" style="background:none;border:none;padding:0;">
+                                                            <i class="fa fa-shopping-bag text-info me-2"></i>Add to Cart
+                                                        </button>
+                                                    </form>
+                                                @else
+                                                    <button type="button" class="text-body detail-btn btn-cart-guest" style="background:none;border:none;padding:0;">
                                                         <i class="fa fa-shopping-bag text-info me-2"></i>Add to Cart
                                                     </button>
-                                                </form>
+                                                @endif
                                             </small>
                                         </div>
                                     </div>
@@ -261,3 +267,30 @@
         </div>
     </div>
 </div>
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.btn-cart-guest').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Login Diperlukan',
+                    text: 'Silakan login atau register sebagai pelanggan untuk menambah ke keranjang.',
+                    showCancelButton: true,
+                    confirmButtonText: 'Login',
+                    cancelButtonText: 'Register',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "{{ route('pelanggan.login') }}";
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        window.location.href = "{{ route('pelanggan.register') }}";
+                    }
+                });
+            });
+        });
+    });
+</script>
+@endpush

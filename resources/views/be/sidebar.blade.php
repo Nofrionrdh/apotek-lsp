@@ -52,8 +52,14 @@
             @if (auth()->check() && auth()->user()->jabatan == 'admin')
                 <li class="nav-item {{ Request::is('manage-user*') ? 'active' : '' }}">
                     <a href="{{ route('manage-user.index') }}">
-                        <i class="la la-users"></i>
+                        <i class="fa-solid fa-user-tie"></i>
                         <p>Management User</p>
+                    </a>
+                </li>
+                <li class="nav-item {{ Request::is('data-pelanggan*') ? 'active' : '' }}">
+                    <a href="{{ route('data-pelanggan.index') }}">
+                        <i class="la la-users"></i>
+                        <p>Data Pelanggan</p>
                     </a>
                 </li>
             @endif

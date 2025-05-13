@@ -19,6 +19,9 @@
     <!-- Bootstrap JS (pastikan ini ada sebelum </body>) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
+    {{-- SweetAlert JS --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
     <style>
         .font-roboto {
@@ -221,6 +224,8 @@
             </div>
         </div>
     </div>
+
+    @stack('scripts')
 </body>
 <script src="{{ asset('be/assets/js/core/jquery.3.2.1.min.js') }}"></script>
 <script src="{{ asset('be/assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js') }}"></script>

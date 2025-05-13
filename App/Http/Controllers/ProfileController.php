@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Pelanggan;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 
@@ -15,7 +14,13 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        $pelanggan = session('pelanggan'); // Ambil dari session FE
+        // Cek apakah ada session pelanggan
+        if (!session()->has('pelanggan')) {
+            return redirect()->route('pelanggan.login');
+        }
+
+        $pelangganId = session('pelanggan')->id;
+        $pelanggan = Pelanggan::find($pelangganId);
 
         if (!$pelanggan) {
             return redirect()->route('pelanggan.login');
@@ -96,43 +101,50 @@ class ProfileController extends Controller
 
         // Update password jika diisi
         if ($request->katakunci) {
-            $pelanggan->katakundi = Hash::make($request->katakunci);
+            $pelanggan->katakunci = $request->katakunci;
         }
 
         // Handle upload foto
         if ($request->hasFile('foto')) {
-            // Hapus foto lama jika ada
             if ($pelanggan->foto) {
                 Storage::delete($pelanggan->foto);
             }
-            
-            // Simpan foto baru
-            $path = $request->file('foto')->store('pelanggan/foto');
-            $pelanggan->foto = $path;
+            $path = $request->file('foto')->store('public/pelanggan/foto');
+            $pelanggan->foto = str_replace('public/', '', $path);
         }
 
-        // Update alamat - sesuaikan dengan nama kolom di database
-        $pelanggan->alamati = $request->alamat1;
+        // Update alamat - perbaiki nama kolom sesuai database
+        $pelanggan->alamat1 = $request->alamat1;
         $pelanggan->kota1 = $request->kota1;
-        $pelanggan->propinsti = $request->propinsi1;
+        $pelanggan->propinsi1 = $request->propinsi1;
         $pelanggan->kodepos1 = $request->kodepos1;
         
-        $pelanggan->alamai2 = $request->alamat2;
+        $pelanggan->alamat2 = $request->alamat2;
         $pelanggan->kota2 = $request->kota2;
         $pelanggan->propinsi2 = $request->propinsi2;
         $pelanggan->kodepos2 = $request->kodepos2;
         
-        $pelanggan->alamai3 = $request->alamat3;
+        $pelanggan->alamat3 = $request->alamat3;
         $pelanggan->kota3 = $request->kota3;
         $pelanggan->propinsi3 = $request->propinsi3;
         $pelanggan->kodepos3 = $request->kodepos3;
-        
-        $pelanggan->url_ktp = $request->url_ktp;
+
+        // Handle upload KTP
+        if ($request->hasFile('url_ktp')) {
+            if ($pelanggan->url_ktp) {
+                Storage::delete($pelanggan->url_ktp);
+            }
+            $path = $request->file('url_ktp')->store('public/pelanggan/ktp');
+            $pelanggan->url_ktp = str_replace('public/', '', $path);
+        }
 
         // Simpan perubahan
         $pelanggan->save();
 
-        return redirect()->back()->with('success', 'Profil berhasil diperbarui!');
+        // Update session dengan data terbaru
+        session(['pelanggan' => $pelanggan]);
+
+        return redirect('/')->with('success', 'Profil berhasil diperbarui!'); // Ubah redirect ke home
     }
 
     /**

@@ -67,7 +67,9 @@
                                                         <td>{{ optional($item->jenis_obat)->jenis }}</td>
                                                         <td class="font-small">{{ Str::limit($item->deskripsi_obat, 50) }}
                                                         </td>
-                                                        <td>Rp {{ number_format($item->harga_jual, 0, ',', '.') }}</td>
+                                                        <td>
+                                                            Rp {{ number_format($item->harga_jual, 0, ',', '.') }}
+                                                        </td>
                                                         <td>{{ $item->stok }}</td>
                                                         <td class="text-center">
                                                             <img src="{{ asset('storage/' . $item->foto1) }}"
@@ -76,18 +78,54 @@
                                                         </td>
                                                         <td class="text-center">
                                                             <div class="btn-group">
+                                                                @if(auth()->check() && auth()->user()->jabatan == 'kasir')
+                                                                    <button type="button" class="btn btn-sm btn-success me-1" data-bs-toggle="modal" data-bs-target="#marginModal-{{ $item->id }}">
+                                                                        <i class="fa-solid fa-percent"></i>
+                                                                    </button>
+                                                                @endif
                                                                 <a href="{{ route('obat.edit', $item->id) }}"
                                                                     class="btn btn-sm btn-warning me-1"><i class="fa-solid fa-pencil"></i></a>
-                                                                <form action="{{ route('obat.destroy', $item->id) }}"
-                                                                    method="POST" class="d-inline">
+                                                                <form action="{{ route('obat.destroy', $item->id) }}" method="POST" class="d-inline form-delete">
                                                                     @csrf
                                                                     @method('DELETE')
-                                                                    <button type="submit" class="btn btn-sm btn-danger"
-                                                                        onclick="return confirm('Yakin ingin menghapus?')">
+                                                                    <button type="button" class="btn btn-sm btn-danger btn-delete">
                                                                         <i class="fa-solid fa-trash"></i>
                                                                     </button>
                                                                 </form>
                                                             </div>
+                                                            @if(auth()->check() && auth()->user()->jabatan == 'kasir')
+                                                            <!-- Modal Margin -->
+                                                            <div class="modal fade" id="marginModal-{{ $item->id }}" tabindex="-1" aria-labelledby="marginModalLabel-{{ $item->id }}" aria-hidden="true">
+                                                                <div class="modal-dialog">
+                                                                    <form class="modal-content" method="POST" action="{{ route('obat.update', $item->id) }}">
+                                                                        @csrf
+                                                                        @method('PUT')
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title" id="marginModalLabel-{{ $item->id }}">Atur Margin & Harga</h5>
+                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <div class="mb-3">
+                                                                                <label class="form-label">Harga Beli</label>
+                                                                                <input type="number" name="harga_beli" class="form-control harga-beli-input" value="{{ $item->harga_beli ?? 0 }}" min="0" required>
+                                                                            </div>
+                                                                            <div class="mb-3">
+                                                                                <label class="form-label">Persen Keuntungan (%)</label>
+                                                                                <input type="number" name="persen_untung" class="form-control persen-untung-input" value="{{ $item->persen_untung ?? 0 }}" min="0" max="100" required>
+                                                                            </div>
+                                                                            <div class="mb-3">
+                                                                                <label class="form-label">Harga Jual (otomatis)</label>
+                                                                                <input type="number" class="form-control harga-jual-output" value="{{ $item->harga_jual ?? 0 }}" readonly>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                                                            <button type="submit" class="btn btn-primary">Simpan</button>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                            @endif
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -106,4 +144,55 @@
             </div>
         </div>
     </div>
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // SweetAlert hapus
+        const deleteButtons = document.querySelectorAll('.btn-delete');
+        deleteButtons.forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                const form = btn.closest('form');
+                Swal.fire({
+                    title: 'Yakin ingin menghapus?',
+                    text: "Data yang dihapus tidak bisa dikembalikan!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, hapus!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+
+        // Margin Modal: Kalkulasi harga jual otomatis
+        document.querySelectorAll('.modal').forEach(function(modal) {
+            modal.addEventListener('shown.bs.modal', function () {
+                const hargaBeliInput = modal.querySelector('.harga-beli-input');
+                const persenUntungInput = modal.querySelector('.persen-untung-input');
+                const hargaJualOutput = modal.querySelector('.harga-jual-output');
+
+                function updateHargaJual() {
+                    let hargaBeli = parseFloat(hargaBeliInput.value) || 0;
+                    let persenUntung = parseFloat(persenUntungInput.value) || 0;
+                    let hargaJual = hargaBeli + (hargaBeli * persenUntung / 100);
+                    hargaJualOutput.value = Math.round(hargaJual);
+                }
+
+                hargaBeliInput.addEventListener('input', updateHargaJual);
+                persenUntungInput.addEventListener('input', updateHargaJual);
+
+                // Trigger kalkulasi awal
+                updateHargaJual();
+            });
+        });
+    });
+</script>
+@endpush
+
 @endsection

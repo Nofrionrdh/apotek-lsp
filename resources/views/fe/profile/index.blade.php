@@ -101,8 +101,14 @@
                         </div>
                         <hr>
                         <div class="mb-3">
-                            <label class="form-label">URL KTP</label>
-                            <input type="text" name="url_ktp" class="form-control" value="{{ old('url_ktp', $pelanggan->url_ktp) }}">
+                            <label class="form-label">KTP</label>
+                            <input type="file" name="url_ktp" class="form-control" accept="image/*">
+                            <small class="text-muted">Format: jpg, png. Maks 2MB.</small>
+                            @if($pelanggan->url_ktp)
+                                <div class="mt-2">
+                                    <img src="{{ asset('storage/'.$pelanggan->url_ktp) }}" alt="KTP" style="max-width: 200px">
+                                </div>
+                            @endif
                         </div>
                         <div class="text-end">
                             <button type="submit" class="btn btn-info px-4">Simpan Perubahan</button>

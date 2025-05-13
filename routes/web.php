@@ -187,18 +187,19 @@ Route::get('/cart/checkout/failure', [CartController::class, 'checkoutFailure'])
 // Route::get('/cart/checkout/failure', [CartController::class, 'checkoutFailure'])->name('cart.checkout.failure');
 
 // Frontend Pelanggan Auth (FE)
-
 Route::prefix('pelanggan')->group(function () {
-    Route::middleware('guest:pelanggan')->group(function () {
-        Route::get('/pelanggan-login', [PelangganController::class, 'showLoginForm'])->name('pelanggan.login');
+    // Route untuk guest (belum login)
+    Route::middleware('guest')->group(function () {
+        Route::get('/login', [PelangganController::class, 'showLoginForm'])->name('pelanggan.login');
         Route::post('/login', [PelangganController::class, 'login'])->name('pelanggan.login.submit');
-        Route::get('/pelanggan-register', [PelangganController::class, 'showRegisterForm'])->name('pelanggan.register');
+        Route::get('/register', [PelangganController::class, 'showRegisterForm'])->name('pelanggan.register');
         Route::post('/register', [PelangganController::class, 'register'])->name('pelanggan.register.submit');
     });
 
-    Route::middleware('auth:pelanggan')->group(function () {
-        Route::post('/logout', [PelangganController::class, 'logout'])->name('pelanggan.logout');
-        Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
-        Route::put('/profile/{id}', [ProfileController::class, 'update'])->name('profile.update');
-    });
+    // Route untuk pelanggan yang sudah login
+    Route::post('/logout', [PelangganController::class, 'logout'])->name('pelanggan.logout');
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::put('/profile/{id}', [ProfileController::class, 'update'])->name('profile.update');
 });
+
+Route::resource('data-pelanggan', App\Http\Controllers\DataPelangganController::class)->only(['index', 'destroy']);

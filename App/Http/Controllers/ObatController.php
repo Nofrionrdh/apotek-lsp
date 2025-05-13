@@ -88,6 +88,22 @@ class ObatController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $obat = Obat::findOrFail($id);
+
+        // Jika update margin/harga (dari modal margin)
+        if ($request->has('harga_beli') && $request->has('persen_untung')) {
+            $request->validate([
+                'harga_beli' => 'required|numeric|min:0',
+                'persen_untung' => 'required|numeric|min:0|max:100',
+            ]);
+            // Hitung harga jual, lalu hanya simpan harga_jual ke database
+            $harga_jual = $request->harga_beli + ($request->harga_beli * $request->persen_untung / 100);
+            $obat->harga_jual = $harga_jual;
+            $obat->save();
+
+            return redirect()->route('obat.index')->with('success', 'Harga berhasil diupdate');
+        }
+
         $request->validate([
             'nama_obat' => 'required',
             'jenis_obat_id' => 'required',
@@ -96,7 +112,6 @@ class ObatController extends Controller
             // tambahkan validasi lain jika perlu
         ]);
 
-        $obat = Obat::findOrFail($id);
         $obat->nama_obat = $request->nama_obat;
         $obat->id_jenis = $request->jenis_obat_id;
         $obat->harga_jual = $request->harga;

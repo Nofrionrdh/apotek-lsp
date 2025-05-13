@@ -79,10 +79,13 @@ class PelangganController extends Controller
         ]);
 
         $pelanggan = Pelanggan::where('email', $request->email)->first();
+        
         if ($pelanggan && $pelanggan->katakunci === $request->katakunci) {
+            // Set session untuk pelanggan
             session(['pelanggan' => $pelanggan]);
-            return redirect()->route('profile.index');
+            return redirect('/')->with('success', 'Login berhasil!'); // Ubah redirect ke home
         }
+
         return back()->withErrors(['login' => 'Email atau password salah.'])->withInput();
     }
 
@@ -120,7 +123,8 @@ class PelangganController extends Controller
     // Logout pelanggan
     public function logout(Request $request)
     {
+        // Hapus session pelanggan
         $request->session()->forget('pelanggan');
-        return redirect()->route('pelanggan.login');
+        return redirect('/')->with('success', 'Logout berhasil!'); // Ubah redirect ke root URL
     }
 }
