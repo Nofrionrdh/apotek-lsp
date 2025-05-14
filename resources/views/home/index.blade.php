@@ -1,7 +1,7 @@
 @extends('fe.master')
-{{-- @section('navbar')
+@section('navbar')
     @include('fe.navbar')
-@endsection --}}
+@endsection
 @section('carousel')
     @include('fe.carousel')
 @endsection
@@ -13,6 +13,12 @@
 @endsection
 @section('product')
     @include('fe.product')
+@endsection
+@section('visit')
+    @include('fe.visit')
+@endsection
+@section('testimonial')
+    @include('fe.testimonial')
 @endsection
 @section('footer')
     @include('fe.footer')

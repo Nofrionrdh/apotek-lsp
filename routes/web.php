@@ -22,6 +22,8 @@ use App\Http\Middleware\RoleAuth;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CheckoutController;
 
 
 
@@ -171,6 +173,12 @@ Route::get('pembelian/{id}/edit', [App\Http\Controllers\PembelianController::cla
 Route::put('pembelian/{id}', [App\Http\Controllers\PembelianController::class, 'update'])->name('pembelian.update');
 Route::delete('pembelian/{id}', [App\Http\Controllers\PembelianController::class, 'destroy'])->name('pembelian.destroy');
 
+// Products and Checkout routes
+// Route::prefix('product')->group(function () {
+//     Route::get('/', [ProductController::class, 'index'])->name('product.index');
+//     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+// });
+
 Route::get('/products', [HomeController::class, 'product'])->name('products');
 Route::get('/product', [App\Http\Controllers\HomeController::class, 'product'])->name('product');
 
@@ -203,3 +211,8 @@ Route::prefix('pelanggan')->group(function () {
 });
 
 Route::resource('data-pelanggan', App\Http\Controllers\DataPelangganController::class)->only(['index', 'destroy']);
+
+// Tambahkan route khusus untuk product.index (FE)
+Route::get('/product-list', [ProductController::class, 'index'])->name('product.index');
+Route::get('/product-checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+

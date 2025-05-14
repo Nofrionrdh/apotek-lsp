@@ -3,35 +3,30 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\JenisObat;
 use App\Models\Obat;
-use App\Models\Pelanggan;
+use App\Models\JenisObat;
 
-class HomeController extends Controller
+class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('home.index', [
-            'title' => 'Home',
+        return view('fe.product.index', [
+            'title' => 'Product List',
             'id_jenis' => Obat::distinct()->get(['id_jenis']),
             'obats' => Obat::all(),
-            'jenis_obats' => JenisObat::all(),
-            'pelanggan' => Pelanggan::all()
+            'jenis_obats' => JenisObat::all()
         ]);
     }
 
-    /**
-     * Show the product page.
-     */
     public function product()
     {
         $jenis_obats = JenisObat::with('obat')->get();
 
-        return view('fe.product', [
-            'title' => 'Produk Obat',
+        return view('fe.product.index', [
+            'title' => 'Produk List',
             'jenis_obats' => $jenis_obats,
             'obats' => Obat::with('jenisObat')->get()
         ]);
@@ -84,4 +79,5 @@ class HomeController extends Controller
     {
         //
     }
+
 }

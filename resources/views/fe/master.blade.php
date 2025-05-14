@@ -44,7 +44,10 @@
 
 
 <body>
-    @php use Illuminate\Support\Facades\Auth; @endphp
+    @php 
+        use Illuminate\Support\Facades\Auth;
+        use Illuminate\Support\Facades\Storage; 
+    @endphp
     <style>
         .nav-icon {
             width: 40px;
@@ -123,6 +126,32 @@
         .dropdown-menu-profile .dropdown-divider {
             margin: 0.5rem 0;
         }
+        .navbar-nav .dropdown-menu {
+            min-width: 180px;
+            border-radius: 10px;
+            box-shadow: 0 4px 16px rgba(13,202,240,0.10);
+            border: none;
+            background: #f8fafc;
+            padding: 0.5rem 0;
+        }
+        .navbar-nav .dropdown-menu .dropdown-item {
+            color: #0dcaf0;
+            font-weight: 500;
+            padding: 10px 20px;
+            border-radius: 6px;
+            transition: background 0.2s, color 0.2s;
+        }
+        .navbar-nav .dropdown-menu .dropdown-item:hover,
+        .navbar-nav .dropdown-menu .dropdown-item:focus {
+            background: #0dcaf0;
+            color: #fff;
+        }
+        .navbar-nav .dropdown-toggle::after {
+            margin-left: 0.4em;
+        }
+        .navbar-nav .dropdown-menu {
+            margin-top: 0.5rem;
+        }
     </style>
 
     <script>
@@ -143,88 +172,20 @@
     <!-- Spinner End -->
 
     <!-- Navbar Start -->
-    <div class="container-fluid fixed-top px-0 wow fadeIn" data-wow-delay="0.1s">
-        <div class="top-bar row gx-0 align-items-center d-none d-lg-flex">
-            <div class="col-lg-6 px-5 text-start">
-                <small><i class="fa fa-map-marker-alt me-2"></i>123 Street, New York, USA</small>
-                <small class="ms-4"><i class="fa fa-envelope me-2"></i>medicare@gmail.com</small>
-            </div>
-            <div class="col-lg-6 px-5 text-end">
-                <small>Follow us:</small>
-                <a class="text-body ms-3" href=""><i class="fab fa-facebook-f"></i></a>
-                <a class="text-body ms-3" href=""><i class="fab fa-twitter"></i></a>
-                <a class="text-body ms-3" href=""><i class="fab fa-linkedin-in"></i></a>
-                <a class="text-body ms-3" href=""><i class="fab fa-instagram"></i></a>
-            </div>
-        </div>
-
-        <nav class="navbar navbar-expand-lg navbar-light py-lg-0 px-lg-5 wow fadeIn" data-wow-delay="0.1s">
-            <a href="index.html" class="navbar-brand ms-4 ms-lg-0">
-                <h1 class="fw-bold text-info m-0">Medi<span class="text-info">care</span></h1>
-            </a>
-            <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse"
-                data-bs-target="#navbarCollapse">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-                <div class="navbar-nav ms-auto p-4 p-lg-0">
-                    <a href="index.html" class="nav-item nav-link active">Home</a>
-                    <a href="/about" class="nav-item nav-link">About Us</a>
-                    <a href="product.html" class="nav-item nav-link">Products</a>
-                    {{-- <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                        <div class="dropdown-menu m-0">
-                            <a href="blog.html" class="dropdown-item">Blog Grid</a>
-                            <a href="feature.html" class="dropdown-item">Our Features</a>
-                            <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                            <a href="404.html" class="dropdown-item">404 Page</a>
-                        </div>
-                    </div> --}}
-                    <a href="/contact" class="nav-item nav-link">Contact Us</a>
-                </div>
-                <div class="d-none d-lg-flex ms-2">
-                    <a class="nav-icon position-relative rounded-circle ms-3 d-flex align-items-center justify-content-center"
-                        href="{{ route('cart.index') }}" data-bs-toggle="tooltip" title="Cart">
-                        <i class="fa fa-shopping-bag"></i>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                            0
-                            <span class="visually-hidden">items in cart</span>
-                        </span>
-                    </a>
-                    <div class="nav-icon position-relative rounded-circle ms-3 d-flex align-items-center justify-content-center dropdown"
-                        style="cursor:pointer;" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="{{ asset('fe/img/default-profile.png') }}" alt="Profile" class="profile-img">
-                    </div>
-                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-profile" aria-labelledby="profileDropdown">
-                        @if(session('pelanggan'))
-                            <li class="profile-header text-center">
-                                <img src="{{ asset('fe/img/default-profile.png') }}" alt="Profile" class="profile-img mb-2">
-                                <div class="profile-name">{{ session('pelanggan')->nama_pelanggan }}</div>
-                                <div class="profile-email">{{ session('pelanggan')->email }}</div>
-                            </li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="{{ route('profile.index')}}"><i class="fa fa-user me-2"></i>Profile</a></li>
-                            <li>
-                                <form action="{{ route('pelanggan.logout') }}" method="POST" class="m-0">
-                                    @csrf
-                                    <button class="dropdown-item" type="submit"><i class="fa fa-sign-out-alt me-2"></i>Logout</button>
-                                </form>
-                            </li>
-                        @else
-                            <li><a class="dropdown-item" href="{{ route('pelanggan.register') }}"><i class="fa fa-user-plus me-2"></i>Buat Akun</a></li>
-                            <li><a class="dropdown-item" href="{{ route('pelanggan.login') }}"><i class="fa fa-sign-in-alt me-2"></i>Login</a></li>
-                        @endif
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </div>
+    @yield('navbar')
     <!-- Navbar End -->
     @yield('contact')
 
     @yield('profile')
 
     @yield('keranjang')
+
+    @yield('checkout')
+
+    @yield('nav-product')
+
+    {{-- <div>
+        @yield('checkout')
 
     {{-- <div>
         @yield('keranjang')
@@ -257,87 +218,12 @@
 
 
     <!-- Firm Visit Start -->
-    <div class="container-fluid bg-info mt-5 py-6">
-        <div class="container">
-            <div class="row g-5 align-items-center">
-                <div class="col-md-7 wow fadeIn" data-wow-delay="0.1s">
-                    <h1 class="display-5 text-white mb-3">Kunjungi Apotek Kami</h1>
-                    <p class="text-white mb-0">Dapatkan produk kesehatan terpercaya dan layanan cepat di apotek kami.
-                        Stok lengkap dan harga terjangkau untuk kebutuhan Anda.</p>
-                </div>
-                <div class="col-md-5 text-md-end wow fadeIn" data-wow-delay="0.5s">
-                    <a class="btn btn-lg btn-success rounded-pill py-3 px-5" href="">Lihat Lokasi</a>
-                </div>
-            </div>
-        </div>
-    </div>
+    @yield('visit')
     <!-- Firm Visit End -->
 
 
     <!-- Testimonial Start -->
-    <div class="container-fluid bg-light py-6 mb-5">
-        <div class="container">
-            <div class="section-header text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s"
-                style="max-width: 500px;">
-                <h1 class="display-5 mb-3">Customer Review</h1>
-                <p>Tempor ut dolore lorem kasd vero ipsum sit eirmod sit. Ipsum diam justo sed rebum vero dolor duo.</p>
-            </div>
-            <div class="owl-carousel testimonial-carousel wow fadeInUp" data-wow-delay="0.1s">
-                <div class="testimonial-item position-relative bg-white p-5 mt-4">
-                    <i class="fa fa-quote-left fa-3x text-info position-absolute top-0 start-0 mt-n4 ms-5"></i>
-                    <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam amet diam et
-                        eos. Clita erat ipsum et lorem et sit.</p>
-                    <div class="d-flex align-items-center">
-                        <img class="flex-shrink-0 rounded-circle" src="{{ asset('fe/img/testimonial-1.jpg') }}"
-                            alt="">
-                        <div class="ms-3">
-                            <h5 class="mb-1">Client Name</h5>
-                            <span>Profession</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-item position-relative bg-white p-5 mt-4">
-                    <i class="fa fa-quote-left fa-3x text-info position-absolute top-0 start-0 mt-n4 ms-5"></i>
-                    <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam amet diam et
-                        eos. Clita erat ipsum et lorem et sit.</p>
-                    <div class="d-flex align-items-center">
-                        <img class="flex-shrink-0 rounded-circle" src="{{ asset('fe/img/testimonial-2.jpg') }}"
-                            alt="">
-                        <div class="ms-3">
-                            <h5 class="mb-1">Client Name</h5>
-                            <span>Profession</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-item position-relative bg-white p-5 mt-4">
-                    <i class="fa fa-quote-left fa-3x text-info position-absolute top-0 start-0 mt-n4 ms-5"></i>
-                    <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam amet diam et
-                        eos. Clita erat ipsum et lorem et sit.</p>
-                    <div class="d-flex align-items-center">
-                        <img class="flex-shrink-0 rounded-circle" src="{{ asset('fe/img/testimonial-3.jpg') }}"
-                            alt="">
-                        <div class="ms-3">
-                            <h5 class="mb-1">Client Name</h5>
-                            <span>Profession</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-item position-relative bg-white p-5 mt-4">
-                    <i class="fa fa-quote-left fa-3x text-info position-absolute top-0 start-0 mt-n4 ms-5"></i>
-                    <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam amet diam et
-                        eos. Clita erat ipsum et lorem et sit.</p>
-                    <div class="d-flex align-items-center">
-                        <img class="flex-shrink-0 rounded-circle" src="{{ asset('fe/img/testimonial-4.jpg') }}"
-                            alt="">
-                        <div class="ms-3">
-                            <h5 class="mb-1">Client Name</h5>
-                            <span>Profession</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    @yield('testimonial')
     <!-- Testimonial End -->
 
 

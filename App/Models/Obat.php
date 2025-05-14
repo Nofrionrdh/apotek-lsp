@@ -30,8 +30,8 @@ class Obat extends Model
         return $this->belongsTo(JenisObat::class, 'id_jenis');
     }
 
-    // public function jenisObat()
-    // {
-    //     return $this->belongsTo(JenisObat::class, 'id_jenis');
-    // }
+    public function jenisObat()
+    {
+        return $this->belongsTo(JenisObat::class, 'id_jenis');
+    }
 }

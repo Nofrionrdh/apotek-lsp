@@ -107,10 +107,10 @@ class ProfileController extends Controller
         // Handle upload foto
         if ($request->hasFile('foto')) {
             if ($pelanggan->foto) {
-                Storage::delete($pelanggan->foto);
+                Storage::delete('public/' . $pelanggan->foto);
             }
-            $path = $request->file('foto')->store('public/pelanggan/foto');
-            $pelanggan->foto = str_replace('public/', '', $path);
+            $path = $request->file('foto')->store('pelanggan/foto', 'public');
+            $pelanggan->foto = $path;
         }
 
         // Update alamat - perbaiki nama kolom sesuai database
@@ -129,13 +129,13 @@ class ProfileController extends Controller
         $pelanggan->propinsi3 = $request->propinsi3;
         $pelanggan->kodepos3 = $request->kodepos3;
 
-        // Handle upload KTP
+        // upload KTP
         if ($request->hasFile('url_ktp')) {
             if ($pelanggan->url_ktp) {
-                Storage::delete($pelanggan->url_ktp);
+                Storage::delete('public/' . $pelanggan->url_ktp);
             }
-            $path = $request->file('url_ktp')->store('public/pelanggan/ktp');
-            $pelanggan->url_ktp = str_replace('public/', '', $path);
+            $path = $request->file('url_ktp')->store('pelanggan/ktp', 'public');
+            $pelanggan->url_ktp = $path;
         }
 
         // Simpan perubahan

@@ -3,38 +3,27 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\JenisObat;
-use App\Models\Obat;
-use App\Models\Pelanggan;
+use App\Models\Penjualan;
+use App\Models\Pengiriman;
 
-class HomeController extends Controller
+class CheckoutController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('home.index', [
-            'title' => 'Home',
-            'id_jenis' => Obat::distinct()->get(['id_jenis']),
-            'obats' => Obat::all(),
-            'jenis_obats' => JenisObat::all(),
-            'pelanggan' => Pelanggan::all()
-        ]);
-    }
+        if (!session()->has('pelanggan')) {
+            return redirect()->route('pelanggan.login');
+        }
 
-    /**
-     * Show the product page.
-     */
-    public function product()
-    {
-        $jenis_obats = JenisObat::with('obat')->get();
+        $pelangganId = session('pelanggan')->id;
+        $orders = Penjualan::with('pengiriman')
+                          ->where('id_pelanggan', $pelangganId)
+                          ->orderBy('created_at', 'desc')
+                          ->get();
 
-        return view('fe.product', [
-            'title' => 'Produk Obat',
-            'jenis_obats' => $jenis_obats,
-            'obats' => Obat::with('jenisObat')->get()
-        ]);
+        return view('fe.checkout.index', compact('orders'));
     }
 
     /**

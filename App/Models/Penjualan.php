@@ -42,4 +42,9 @@ class Penjualan extends Model
     {
         return $this->belongsTo(Pelanggan::class, 'id_pelanggan');
     }
+
+    public function pengiriman()
+    {
+        return $this->hasOne(Pengiriman::class, 'id_penjualan');
+    }
 }
